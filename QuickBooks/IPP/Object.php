@@ -53,9 +53,13 @@ class QuickBooks_IPP_Object
 		$XML = new SimpleXMLElement($str);
 		
 		$retr = $XML->xpath($xpath);
+
+		//print_r($retr);
 		
 		// This is our node value
 		$cur = current($retr);
+
+		//print_r($cur);
 		
 		if (is_object($cur))
 		{
@@ -334,7 +338,7 @@ class QuickBooks_IPP_Object
 		}
 	}
 	
-	public function asXML($indent = 0, $parent = null, $optype = null, $flavor = null, $version = QuickBooks_IPP_IDS::VERSION_2)
+	public function asXML($indent = 0, $parent = null, $optype = null, $flavor = null, $version = QuickBooks_IPP_IDS::VERSION_3)
 	{
 		if ($version == QuickBooks_IPP_IDS::VERSION_3)
 		{
@@ -405,6 +409,14 @@ class QuickBooks_IPP_Object
 						{
 							$svalue = trim($svalue, '{}-');	
 						}
+						else if ($key == 'DefinitionId' and $svalue{0} == '{')
+						{
+							$svalue = trim($svalue, '{}-');
+						}
+						else if ($key == 'TxnId' and $svalue{0} == '{')
+						{
+							$svalue = trim($svalue, '{}-');
+						}
 
 						$xml .= str_repeat("\t", $indent + 1) . '<' . $key . '>' . QuickBooks_XML::encode($svalue, false) . '</' . $key . '>' . QUICKBOOKS_CRLF;
 					}
@@ -439,6 +451,14 @@ class QuickBooks_IPP_Object
 				else if ($key == 'Id' and $value{0} == '{')
 				{
 					$value = trim($value, '{}-');	
+				}
+				else if ($key == 'DefinitionId' and $value{0} == '{')
+				{
+					$value = trim($value, '{}-');
+				}
+				else if ($key == 'TxnId' and $value{0} == '{')
+				{
+					$value = trim($value, '{}-');
 				}
 				
 				$xml .= str_repeat("\t", $indent + 1) . '<' . $key . '>';

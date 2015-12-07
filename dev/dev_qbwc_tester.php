@@ -1,9 +1,9 @@
 <?php
 
 
-$url = 'http://macbookpro.chargeover.com:8888/chargeover/signup/?stage=qbwc/qbwc';
-$username = '2317b8e02e307bcdf75adf4091fb6bc8';
-$password = '67b0016c';
+$url = 'https://your-domain.com/path/to/qbwc.php';
+$username = 'keithtest';
+$password = 'password';
 
 if (function_exists('date_default_timezone_set'))
 {
@@ -356,7 +356,9 @@ function tester($url, $username_or_ticket, $password, $method, $data = null)
 		
 		//curl_setopt($curl, CURLOPT_USERPWD, 'milo:foofoo');
 		
-		//curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+		//print_r(curl_getinfo($curl));
 		
 		$return = curl_exec($curl);
 	}

@@ -118,6 +118,18 @@ class QuickBooks_QBXML_Object_Customer extends QuickBooks_QBXML_Object
 	{
 		return $this->get('ParentRef ' . QUICKBOOKS_API_APPLICATIONID);
 	}
+
+	public function setCurrencyListID($lid)
+	{
+		return $this->set('CurrencyRef ListID', $lid);
+	}
+	
+	public function setCurrencyFullName($FullName)
+	{
+		return $this->setFullNameType('CurrencyRef FullName', null, null, $FullName);
+	}
+
+
 	
 	/**
 	 * Set the customer type list id
@@ -142,7 +154,15 @@ class QuickBooks_QBXML_Object_Customer extends QuickBooks_QBXML_Object
 		return $this->set('CustomerTypeRef ' . QUICKBOOKS_API_APPLICATIONID, $this->encodeApplicationID(QUICKBOOKS_OBJECT_CUSTOMERTYPE, QUICKBOOKS_LISTID, $value));
 	}
 	
+	/**
+	 * @deprecated
+	 */
 	public function setTermsName($name)
+	{
+		return $this->set('TermsRef FullName', $name);
+	}
+
+	public function setTermsFullName($name)
 	{
 		return $this->set('TermsRef FullName', $name);
 	}
@@ -152,6 +172,7 @@ class QuickBooks_QBXML_Object_Customer extends QuickBooks_QBXML_Object
 		return $this->set('TermsRef ListID', $ListID);
 	}
 	
+	/*
 	public function setTermsApplicationID($value)
 	{
 		return $this->set('TermsRef ' . QUICKBOOKS_API_APPLICATIONID, $this->encodeApplicationID(QUICKBOOKS_OBJECT_TERMS, QUICKBOOKS_LISTID, $value));
@@ -160,7 +181,7 @@ class QuickBooks_QBXML_Object_Customer extends QuickBooks_QBXML_Object
 	public function getTermsApplicationID()
 	{
 		return $this->get('TermsRef ' . QUICKBOOKS_API_APPLICATIONID);
-	}
+	}*/
 	
 	public function getTermsName()
 	{
@@ -176,12 +197,18 @@ class QuickBooks_QBXML_Object_Customer extends QuickBooks_QBXML_Object
 	{
 		return $this->set('SalesRepRef FullName', $name);
 	}
+
+	public function setSalesRepFullName($name)
+	{
+		return $this->set('SalesRepRef FullName', $name);
+	}
 	
 	public function setSalesRepListID($ListID)
 	{
 		return $this->set('SalesRepRef ListID', $ListID);
 	}
 	
+	/*
 	public function setSalesRepApplicationID($value)
 	{
 		return $this->set('SalesRepRef ' . QUICKBOOKS_API_APPLICATIONID, $this->encodeApplicationID(QUICKBOOKS_OBJECT_SALESREP, QUICKBOOKS_LISTID, $value));
@@ -190,7 +217,7 @@ class QuickBooks_QBXML_Object_Customer extends QuickBooks_QBXML_Object
 	public function getSalesRepApplicationID()
 	{
 		return $this->get('SalesRepRef ' . QUICKBOOKS_API_APPLICATIONID);
-	}
+	}*/
 
 	public function getSalesRepName()
 	{
@@ -489,6 +516,16 @@ class QuickBooks_QBXML_Object_Customer extends QuickBooks_QBXML_Object
 	{
 		return $this->get('Email');
 	}
+
+	public function setAccountNumber($num)
+	{
+		return $this->set('AccountNumber', $num);
+	}
+
+	public function getAccountNumber()
+	{
+		return $this->get('AccountNumber');
+	}
 	
 	/**
 	 * Set the contact person for this customer
@@ -725,6 +762,15 @@ class QuickBooks_QBXML_Object_Customer extends QuickBooks_QBXML_Object
 		return $this->get('PriceLevelRef FullName');
 	}
 	
+	public function setPreferredDeliveryMethod($value)
+	{
+		return $this->set('PreferredDeliveryMethod', $value);
+	}
+
+	public function getPreferredDeliveryMethod()
+	{
+		return $this->get('PreferredDeliveryMethod');
+	}
 
 	/**
 	 * Get the price level list id.
@@ -771,7 +817,7 @@ class QuickBooks_QBXML_Object_Customer extends QuickBooks_QBXML_Object
 	{
 		$this->_cleanup();
 		
-		return parent::asQBXML($request, $version = null, $locale = null, $root);
+		return parent::asQBXML($request, $version, $locale, $root);
 	}
 	
 	/**

@@ -786,6 +786,27 @@ class QuickBooks_Utilities
 			
 		return null;
 	}
+
+	/**
+	 * Generate a GUID
+	 * 
+	 * Note: This is used for tickets too, so it *must* be a RANDOM GUID!
+	 * 
+	 * @param boolean $surround
+	 * @return string
+	 */
+	static public function GUID()
+	{
+		$guid = sprintf('%04x%04x-%04x-%03x4-%04x-%04x%04x%04x',
+			mt_rand(0, 65535), mt_rand(0, 65535), 
+			mt_rand(0, 65535), 
+			mt_rand(0, 4095),  
+			bindec(substr_replace(sprintf('%016b', mt_rand(0, 65535)), '01', 6, 2)),
+			mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535)
+			);  	
+			
+		return $guid;	
+	}	
 		
 	/**
 	 * Try to guess the queueing priority for this action
@@ -833,11 +854,11 @@ class QuickBooks_Utilities
 			QUICKBOOKS_MOD_ESTIMATE, 
 			QUICKBOOKS_ADD_ESTIMATE, 
 			
+			QUICKBOOKS_ADD_INVENTORYADJUSTMENT, 
+
 			QUICKBOOKS_ADD_CREDITMEMO, 
 			QUICKBOOKS_MOD_CREDITMEMO, 
 			
-			QUICKBOOKS_ADD_INVENTORYADJUSTMENT, 
-
 			QUICKBOOKS_ADD_ITEMRECEIPT,
 			QUICKBOOKS_MOD_ITEMRECEIPT,
 

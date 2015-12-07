@@ -33,7 +33,9 @@ class QuickBooks_IPP_IDS
 	const OPTYPE_MOD = 'Mod';
 	
 	const OPTYPE_DELETE = 'Delete';
-	
+
+	const OPTYPE_VOID = 'Void';
+
 	const OPTYPE_QUERY = 'Query';
 
 	const OPTYPE_CDC = 'ChangeDataCapture';
@@ -55,9 +57,11 @@ class QuickBooks_IPP_IDS
 	
 	const VERSION_3 = 'v3';
 	
-	const VERSION_LATEST = 'v2';
+	const VERSION_LATEST = 'v3';
 
 	const URL_V3 = 'https://quickbooks.api.intuit.com/v3';
+
+	const URL_V3_SANDBOX = 'https://sandbox-quickbooks.api.intuit.com/v3';
 	
 	/**
 	 * Default BASEURL for QuickBooks Desktop (QuickBooks Online requires you to fetch a specific BASEURL)
@@ -136,6 +140,8 @@ class QuickBooks_IPP_IDS
 	
 	const RESOURCE_PURCHASEORDER = 'PurchaseOrder';
 	
+	const RESOURCE_REFUNDRECEIPT = 'RefundReceipt';
+
 	const RESOURCE_SALESORDER = 'SalesOrder';
 	
 	const RESOURCE_SALESRECEIPT = 'SalesReceipt';

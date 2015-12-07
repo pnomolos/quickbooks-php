@@ -95,7 +95,7 @@ define('QUICKBOOKS_PACKAGE_NAME', 'QuickBooks PHP DevKit');
  * The version of this QuickBooks package 
  * @var string
  */
-define('QUICKBOOKS_PACKAGE_VERSION', '3.0beta');
+define('QUICKBOOKS_PACKAGE_VERSION', '3.0');
 
 if (!defined('QUICKBOOKS_CRLF'))
 {
@@ -613,6 +613,12 @@ define('QUICKBOOKS_QUERY_SUBTOTALITEM', 'ItemSubtotalQuery');
 define('QUICKBOOKS_IMPORT_SUBTOTALITEM', 'ItemSubtotalImport');
 
 define('QUICKBOOKS_QUERY_ITEMSITES', 'ItemSitesQuery');
+
+define('QUICKBOOKS_OBJECT_INVENTORYSITE', 'InventorySite');
+define('QUICKBOOKS_ADD_INVENTORYSITE', 'InventorySiteAdd');
+define('QUICKBOOKS_MOD_INVENTORYSITE', 'InventorySiteMod');
+define('QUICKBOOKS_QUERY_INVENTORYSITE', 'InventorySiteQuery');
+define('QUICKBOOKS_IMPORT_INVENTORYSITE', 'InventorySiteImport');
 
 define('QUICKBOOKS_OBJECT_JOBTYPE', 'JobType');
 define('QUICKBOOKS_ADD_JOBTYPE', 'JobTypeAdd');

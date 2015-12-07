@@ -193,6 +193,7 @@ class QuickBooks_IPP
 	
 	protected $_flavor;
 	protected $_baseurl;
+	protected $_sandbox;
 	
 	protected $_authmode;
 	protected $_authuser;
@@ -246,6 +247,9 @@ class QuickBooks_IPP
 	
 	public function __construct($dsn = null, $encryption_key = null, $config = array(), $log_level = QUICKBOOKS_LOG_NORMAL)
 	{
+		// Are we in sandbox mode?
+		$this->_sandbox = false;
+
 		// Use a test gateway?
 		$this->_test = false;
 		
@@ -259,7 +263,7 @@ class QuickBooks_IPP
 		$this->_ids_parser = true;
 		
 		// What version of IDS to use
-		$this->_ids_version = QuickBooks_IPP_IDS::VERSION_2;
+		$this->_ids_version = QuickBooks_IPP_IDS::VERSION_3;
 		
 		// Driver class for logging
 		$this->_driver = null;
@@ -480,6 +484,16 @@ class QuickBooks_IPP
 		return $this->_flavor;
 	}
 
+	public function sandbox($sandbox = null)
+	{
+		if (!is_null($sandbox))
+		{
+			$this->_sandbox = (bool) $sandbox;
+		}
+
+		return $this->_sandbox;
+	}
+
 	public function baseURL($baseURL = null)
 	{
 		if ($baseURL)
@@ -488,6 +502,11 @@ class QuickBooks_IPP
 		}
 		
 		return $this->_baseurl;
+	}
+
+	public function authcreds()
+	{
+		return $this->_authcred;
 	}
 	
 	/**
@@ -992,6 +1011,12 @@ class QuickBooks_IPP
 		// All v3 URLs have the same baseURL
 		$this->baseURL(QuickBooks_IPP_IDS::URL_V3);
 
+		// If we're in sandbox mode, use the sandbox URL instead
+		if ($this->sandbox())
+		{
+			$this->baseURL(QuickBooks_IPP_IDS::URL_V3_SANDBOX);
+		}
+
 		$post = false;
 		$xml = null;
 		$query = null;
@@ -1011,6 +1036,24 @@ class QuickBooks_IPP
 		{
 			$post = false;
 			$url = $this->baseURL() . '/company/' . $realm . '/cdc?entities=' . implode(',', $xml_or_query[0]) . '&changedSince=' . $xml_or_query[1];
+		}
+		else if ($optype == QuickBooks_IPP_IDS::OPTYPE_DELETE)
+		{
+			$post = true;
+			$url = $this->baseURL() . '/company/' . $realm . '/' . strtolower($resource) . '?operation=delete';
+			$xml = $xml_or_query;
+		}
+		else if ($optype == QuickBooks_IPP_IDS::OPTYPE_VOID)
+		{
+			$qs = '?operation=void';        // Used for invoices... 
+			if ($resource == QuickBooks_IPP_IDS::RESOURCE_PAYMENT)    // ... and something different used for payments *sigh*
+			{
+				$qs = '?operation=update&include=void';
+			}
+
+			$post = true;
+			$url = $this->baseURL() . '/company/' . $realm . '/' . strtolower($resource) . $qs;
+			$xml = $xml_or_query;
 		}
 
 		$response = $this->_request($Context, QuickBooks_IPP::REQUEST_IDS, $url, $optype, $xml, $post);
@@ -1399,7 +1442,10 @@ class QuickBooks_IPP
 		
 		if ($Context->IPP()->version() == QuickBooks_IPP_IDS::VERSION_3)
 		{
-			if ($action == QuickBooks_IPP_IDS::OPTYPE_ADD or $action == QuickBooks_IPP_IDS::OPTYPE_MOD)
+			if ($action == QuickBooks_IPP_IDS::OPTYPE_ADD or 
+				$action == QuickBooks_IPP_IDS::OPTYPE_MOD or 
+				$action == QuickBooks_IPP_IDS::OPTYPE_VOID or
+				$action == QuickBooks_IPP_IDS::OPTYPE_DELETE)
 			{
 				$headers['Content-Type'] = 'application/xml';
 			}
